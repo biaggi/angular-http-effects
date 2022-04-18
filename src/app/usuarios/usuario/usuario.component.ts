@@ -1,29 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PayloadErrorIface, StatusType } from '../../store/types';
 import { UserModel } from '../../models/usuario.model';
 import { AppState } from '../../store/store';
 import * as actions from '../../store/actions';
-
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.sass'],
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, OnDestroy {
   user: UserModel | undefined;
   error: PayloadErrorIface | undefined;
   status: StatusType = 'idle';
+  subs: Subscription[] = [];
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.store.select('user').subscribe(({ user, status, error }) => {
+    this.activatedRoute.paramMap.pipe(
+      tap((d) => console.log('d', d)),
+      filter((params: any) => params.params.id !== undefined),
+      map((params) => params.params.id),
+      tap((id) => this.store.dispatch(actions.cargarUsuario({ id: id })))
+    );
+
+    const selectUser = this.store.select('user').subscribe(({ user, status, error }) => {
       this.user = user;
       this.status = status;
       this.error = error;
     });
-    this.store.dispatch(actions.cargarUsuario({id: 1}));
+    this.subs.push(selectUser);
+
+  }
+  ngOnDestroy(): void {
+    this.subs.map((item) => item.unsubscribe());
   }
 }
