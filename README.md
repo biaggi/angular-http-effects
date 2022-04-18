@@ -1,6 +1,9 @@
 # AngularHttpEffects
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
+Published at github pages:
+
+https://biaggi.github.io/angular-http-effects/
 
 ## Development server
 
