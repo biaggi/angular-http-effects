@@ -1,21 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { UserModel } from 'src/app/models/usuario.model';
-import { UserService } from 'src/app/services/user.service';
+import { AppState } from 'src/app/store/store';
+import * as actions from '../../store/actions';
+import { PayloadErrorIface, StatusType } from '../../store/types';
 
 @Component({
   selector: 'app-lista',
   templateUrl: './lista.component.html',
-  styleUrls: ['./lista.component.sass']
+  styleUrls: ['./lista.component.sass'],
 })
 export class ListaComponent implements OnInit {
+  users: UserModel[] = [];
+  error: PayloadErrorIface | undefined;
+  status: StatusType = 'idle';
 
-  users$: Observable<UserModel[]> = new Observable();
-
-  constructor(private usuarioService: UserService ) { }
+  constructor(
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
-    this.users$ = this.usuarioService.getUsers()
+    this.store.select('users').subscribe(({users, status, error}) => {
+      this.users = users;
+      this.status = status;
+      this.error = error;
+    });
+    this.store.dispatch(actions.cargarUsuarios());
   }
-
 }
