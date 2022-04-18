@@ -12,7 +12,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { appReducers } from './store/store';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/effects/usuarios.effects';
 import { EffectsList } from './store/effects/index';
 
 @NgModule({

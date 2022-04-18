@@ -19,10 +19,25 @@ export class UserService {
           first_name: user.first_name,
           last_name: user.last_name,
           avatar: user.avatar,
+        }));
+      })
+    );
+  }
 
-        }))
-      }),
-      tap((data) => console.log('tap', data))
+  // UserModel[]
+  getUser(id: number) {
+    return this.httpClient.get(`${this.url}/users/${id}`).pipe(
+      map((res: any) => {
+        const user = res.data;
+        return {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          avatar: user.avatar,
+        };
+      })
     );
   }
 }
+
+

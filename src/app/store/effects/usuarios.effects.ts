@@ -8,11 +8,10 @@ import * as actions from '../actions';
 import { AppState } from '../store';
 
 @Injectable()
-export class UserEffects {
+export class UsersEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private store: Store<AppState>
   ) {}
 
   effectName$ = createEffect(() => {

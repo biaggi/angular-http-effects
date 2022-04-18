@@ -3,20 +3,20 @@ import * as actions from '../actions';
 import { UserModel } from '../../models/usuario.model';
 import { StatusType, PayloadErrorIface } from '../types';
 
-export interface UserState {
+export interface UsersState {
   users: UserModel[];
   error: PayloadErrorIface | undefined;
   status: StatusType;
 }
 
-export const initialState: UserState = {
+export const initialStateUsers: UsersState = {
   users: [],
   error: undefined,
   status: 'idle',
 };
 
-export const usuarioReducer = createReducer(
-  initialState,
+export const usuariosReducer = createReducer(
+  initialStateUsers,
   on(actions.cargarUsuarios, (state) => ({
     ...state, status: 'loading', error: undefined
   })),
