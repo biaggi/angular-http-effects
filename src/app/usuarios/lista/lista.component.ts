@@ -4,6 +4,7 @@ import { UserModel } from 'src/app/models/usuario.model';
 import { AppState } from 'src/app/store/store';
 import * as actions from '../../store/actions';
 import { PayloadErrorIface, StatusType } from '../../store/types';
+import * as selectors from '../../store/selectors';
 
 @Component({
   selector: 'app-lista',
@@ -15,12 +16,10 @@ export class ListaComponent implements OnInit {
   error: PayloadErrorIface | undefined;
   status: StatusType = 'idle';
 
-  constructor(
-    private store: Store<AppState>
-  ) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store.select('users').subscribe(({users, status, error}) => {
+    this.store.select(selectors.selectUsers).subscribe(({ users, status, error }) => {
       this.users = users;
       this.status = status;
       this.error = error;

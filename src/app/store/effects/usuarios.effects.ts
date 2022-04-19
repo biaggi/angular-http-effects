@@ -14,7 +14,7 @@ export class UsersEffects {
     private userService: UserService,
   ) {}
 
-  effectName$ = createEffect(() => {
+  cargarUsuarios$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(actions.cargarUsuarios),
       /** An EMPTY observable only emits completion. Replace with your own observable stream */

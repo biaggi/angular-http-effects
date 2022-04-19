@@ -12,7 +12,7 @@ import { UserModel } from '../../models/usuario.model';
 export class UserEffects {
   constructor(private actions$: Actions, private userService: UserService) {}
 
-  effectName$ = createEffect(() => {
+  cargarUsuario$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(actions.cargarUsuario),
       /** An EMPTY observable only emits completion. Replace with your own observable stream */

@@ -25,20 +25,20 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(data => console.log(data))
     this.activatedRoute.paramMap.pipe(
-      tap((d) => console.log('d', d)),
-      filter((params: any) => params.params.id !== undefined),
+      filter((params: any) => {console.log(params); return params.params.id !== undefined}),
       map((params) => params.params.id),
-      tap((id) => this.store.dispatch(actions.cargarUsuario({ id: id })))
-    );
+    ).subscribe(id => this.store.dispatch(actions.cargarUsuario({ id: id })));
 
-    const selectUser = this.store.select('user').subscribe(({ user, status, error }) => {
-      this.user = user;
-      this.status = status;
-      this.error = error;
-    });
+    const selectUser = this.store
+      .select('user')
+      .subscribe(({ user, status, error }) => {
+        this.user = user;
+        this.status = status;
+        this.error = error;
+      });
     this.subs.push(selectUser);
-
   }
   ngOnDestroy(): void {
     this.subs.map((item) => item.unsubscribe());
